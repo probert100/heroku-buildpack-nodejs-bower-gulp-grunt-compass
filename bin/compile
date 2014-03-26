@@ -85,6 +85,11 @@ fi
   status "Installing dependencies"
   # Make npm output to STDOUT instead of its default STDERR
   npm install --userconfig $build_dir/.npmrc --production 2>&1 | indent
+
+  if [ -f $build_dir/gulpfile.js ]; then
+    # Install gulp locally
+    npm install --userconfig $build_dir/.npmrc 2>&1 | indent
+  fi
 )
 
 # Persist goodies like node-version in the slug
@@ -183,8 +188,6 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
       export_env_dir $env_dir
     fi
 
-    # Install gulp locally
-    npm install gulp
     echo "-----> Found gulpfile, running gulp heroku:$NODE_ENV task"
     $build_dir/node_modules/.bin/gulp heroku:$NODE_ENV
   else
