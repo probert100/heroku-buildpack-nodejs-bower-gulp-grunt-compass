@@ -152,7 +152,7 @@ HOME=$build_dir bundle install
 #
 # once this bug is fixed:
 # https://github.com/chriseppstein/compass/issues/1617
-HOME=$build_dir make -C $build_dir compass
+HOME=$build_dir make -C $build_dir heroku-compass
 
 # cache ruby gems compass
 rm -rf $cache_dir/ruby
