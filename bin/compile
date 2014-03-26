@@ -143,7 +143,6 @@ if test -d $cache_dir/ruby/.gem; then
   status "Restoring ruby gems directory from cache"
   cp -r $cache_dir/ruby/.gem $build_dir
   HOME=$build_dir gem update bundler --user-install --no-rdoc --no-ri
-  HOME=$build_dir gem install bundler --user-install --no-rdoc --no-ri
 else
   HOME=$build_dir gem install bundler --user-install --no-rdoc --no-ri
 fi
