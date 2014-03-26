@@ -131,6 +131,8 @@ fi
 # install compass
 status "Installing Compass"
 export GEM_HOME=$build_dir/.gem/ruby/1.9.1
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF8
 PATH="$GEM_HOME/bin:$PATH"
 if test -d $cache_dir/ruby/.gem; then
   status "Restoring ruby gems directory from cache"
