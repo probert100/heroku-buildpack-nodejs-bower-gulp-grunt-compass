@@ -135,10 +135,21 @@ PATH="$GEM_HOME/bin:$PATH"
 if test -d $cache_dir/ruby/.gem; then
   status "Restoring ruby gems directory from cache"
   cp -r $cache_dir/ruby/.gem $build_dir
-  HOME=$build_dir gem update compass --user-install --no-rdoc --no-ri
+  HOME=$build_dir gem update bundler --user-install --no-rdoc --no-ri
 else
-  HOME=$build_dir gem install compass --user-install --no-rdoc --no-ri
+  HOME=$build_dir gem install bundler --user-install --no-rdoc --no-ri
 fi
+
+# Run bundler
+HOME=$build_dir bundle install
+
+# Run compass
+# FIXME: this should become
+#        HOME=$build_dir bundle exec compass compile
+#
+# once this bug is fixed:
+# https://github.com/chriseppstein/compass/issues/1617
+HOME=$build_dir make -C $build_dir compass
 
 # cache ruby gems compass
 rm -rf $cache_dir/ruby
