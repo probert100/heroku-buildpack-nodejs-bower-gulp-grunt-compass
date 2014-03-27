@@ -136,13 +136,16 @@ if [ ! -e $build_dir/Procfile ]; then
   fi
 fi
 
-# Run bower
-if [ -f $build_dir/bower.json ]; then
-  export bower_shorthand_resolver=git+https://$GITHUB_AUTH_TOKEN:x-oauth-token@github.com/{{owner}}/{{package}}
-  export bower_storage__cache=$cache_dir/bower
-  export bower_config__interactive=false
-  $build_dir/node_modules/.bin/bower install 2>&1 | indent
-fi
+(
+  # Run bower
+  if [ -f $build_dir/bower.json ]; then
+    export GITHUB_AUTH_TOKEN=$(cat $env_dir/GITHUB_AUTH_TOKEN)
+    export bower_shorthand_resolver=git+https://$GITHUB_AUTH_TOKEN:x-oauth-token@github.com/{{owner}}/{{package}}
+    export bower_storage__cache=$cache_dir/bower
+    export bower_config__interactive=false
+    $build_dir/node_modules/.bin/bower install 2>&1 | indent
+  fi
+)
 
 # porting in compass install
 # install compass
