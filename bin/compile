@@ -86,11 +86,11 @@ fi
   # Make npm output to STDOUT instead of its default STDERR
   npm install --userconfig $build_dir/.npmrc --production 2>&1 | indent
 
-  if [ -f $build_dir/gulpfile.js && ! -f $build_dir/node_modules/.bin/gulp ]; then
+  if [ -f $build_dir/gulpfile.js ] && [ ! -f $build_dir/node_modules/.bin/gulp ]; then
     # Install gulp locally
     npm install --userconfig $build_dir/.npmrc --production gulp 2>&1 | indent
   fi
-  if [ -f $build_dir/bower.json && ! -f $build_dir/node_modules/.bin/bower ]; then
+  if [ -f $build_dir/bower.json ] && [ ! -f $build_dir/node_modules/.bin/bower ]; then
     # Install bower locally
     npm install --userconfig $build_dir/.npmrc --production bower 2>&1 | indent
   fi
