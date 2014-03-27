@@ -138,10 +138,10 @@ fi
 
 # Run bower
 if [ -f $build_dir/bower.json ]; then
-  export bower_shorthand_resolver=https://$GITHUB_AUTH_TOKEN:x-oauth-token@github.com/{{owner}}/{{package}}
+  export bower_shorthand_resolver=git+https://$GITHUB_AUTH_TOKEN:x-oauth-token@github.com/{{owner}}/{{package}}
   export bower_storage__cache=$cache_dir/bower
   export bower_config__interactive=false
-  $build_dir/node_modules/.bin/bower install
+  $build_dir/node_modules/.bin/bower install 2>&1 | indent
 fi
 
 # porting in compass install
