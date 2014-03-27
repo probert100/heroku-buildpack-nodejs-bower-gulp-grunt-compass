@@ -139,6 +139,7 @@ fi
 (
   # Run bower
   if [ -f $build_dir/bower.json ]; then
+    status "Installing frontend packages with bower"
     export GITHUB_AUTH_TOKEN=$(cat $env_dir/GITHUB_AUTH_TOKEN)
     export bower_shorthand_resolver=git+https://$GITHUB_AUTH_TOKEN:x-oauth-basic@github.com/{{owner}}/{{package}}
     export bower_storage__packages=$cache_dir/bower
