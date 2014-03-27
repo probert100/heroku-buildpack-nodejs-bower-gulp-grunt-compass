@@ -148,31 +148,33 @@ fi
   fi
 )
 
-# porting in compass install
-# install compass
-status "Installing Compass"
-export GEM_HOME=$build_dir/.gem/ruby/1.9.1
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF8
-PATH="$GEM_HOME/bin:$PATH"
-if test -d $cache_dir/ruby/.gem; then
-  status "Restoring ruby gems directory from cache"
-  cp -r $cache_dir/ruby/.gem $build_dir
-  HOME=$build_dir gem update bundler --user-install --no-rdoc --no-ri 2>&1 | indent
-else
-  HOME=$build_dir gem install bundler --user-install --no-rdoc --no-ri 2>&1 | indent
-fi
+(
+  # porting in compass install
+  # install compass
+  status "Installing Compass"
+  export GEM_HOME=$build_dir/.gem/ruby/1.9.1
+  export LANG=en_US.UTF-8
+  export LC_ALL=en_US.UTF8
+  PATH="$GEM_HOME/bin:$PATH"
+  if test -d $cache_dir/ruby/.gem; then
+    status "Restoring ruby gems directory from cache"
+    cp -r $cache_dir/ruby/.gem $build_dir
+    HOME=$build_dir gem update bundler --user-install --no-rdoc --no-ri 2>&1 | indent
+  else
+    HOME=$build_dir gem install bundler --user-install --no-rdoc --no-ri 2>&1 | indent
+  fi
 
-# Run bundler
-HOME=$build_dir bundle install 2>&1 | indent
+  # Run bundler
+  HOME=$build_dir bundle install 2>&1 | indent
 
-# Run compass
-# FIXME: this should become
-#        HOME=$build_dir bundle exec compass compile
-#
-# once this bug is fixed:
-# https://github.com/chriseppstein/compass/issues/1617
-HOME=$build_dir make -C $build_dir heroku-compass  2>&1 | indent
+  # Run compass
+  # FIXME: this should become
+  #        HOME=$build_dir bundle exec compass compile
+  #
+  # once this bug is fixed:
+  # https://github.com/chriseppstein/compass/issues/1617
+  HOME=$build_dir make -C $build_dir heroku-compass  2>&1 | indent
+)
 
 # cache ruby gems compass
 rm -rf $cache_dir/ruby
