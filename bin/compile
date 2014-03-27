@@ -88,7 +88,11 @@ fi
 
   if [ -f $build_dir/gulpfile.js ]; then
     # Install gulp locally
-    npm install --userconfig $build_dir/.npmrc 2>&1 | indent
+    npm install --userconfig $build_dir/.npmrc gulp 2>&1 | indent
+  fi
+  if [ -f $build_dir/bower.json ]; then
+    # Install bower locally
+    npm install --userconfig $build_dir/.npmrc bower 2>&1 | indent
   fi
 )
 
@@ -130,6 +134,14 @@ if [ ! -e $build_dir/Procfile ]; then
     status "Procfile not found and npm start script is undefined"
     protip "Create a Procfile or specify a start script in package.json"
   fi
+fi
+
+# Run bower
+if [ -f $build_dir/bower.json ]; then
+  export bower_shorthand_resolver=https://$GITHUB_AUTH_TOKEN:x-oauth-token@github.com/{{owner}}/{{package}}
+  export bower_storage__cache=$cache_dir/bower
+  export bower_config__interactive=false
+  $build_dir/node_modules/.bin/bower install
 fi
 
 # porting in compass install
