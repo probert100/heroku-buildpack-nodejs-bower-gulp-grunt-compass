@@ -82,6 +82,12 @@ if [ ! -f "$build_dir/.npmrc" ]; then
   echo "ca=" > "$build_dir/.npmrc"
 fi
 
+# Check whether we need to run the various tools
+# Notice braindead bash boolean logic: 0 means "run", 1 means "don't run"
+run_bower=$(test -f $build_dir/bower.json)$?
+run_grunt=$(test -f $build_dir/Gruntfile.js || test -f $build_dir/Gruntfile.coffee)$?
+run_gulp=$(test -f $build_dir/gulpfile.js)$?
+
 # Scope config var availability only to `npm install`
 (
   if [ -d "$env_dir" ]; then
@@ -93,11 +99,15 @@ fi
   # Make npm output to STDOUT instead of its default STDERR
   npm install --userconfig $build_dir/.npmrc --production 2>&1 | indent
 
-  if [ -f $build_dir/gulpfile.js ] && [ ! -f $build_dir/node_modules/.bin/gulp ]; then
+  if [ $run_gulp -eq 0 ] && [ ! -f $build_dir/node_modules/.bin/gulp ]; then
     # Install gulp locally
     npm install --userconfig $build_dir/.npmrc --production gulp 2>&1 | indent
   fi
-  if [ -f $build_dir/bower.json ] && [ ! -f $build_dir/node_modules/.bin/bower ]; then
+  if [ $run_grunt -eq 0 ] && [ ! -f $build_dir/node_modules/.bin/grunt ]; then
+    # Install grunt locally
+    npm install --userconfig $build_dir/.npmrc --production grunt 2>&1 | indent
+  fi
+  if [ $run_bower -eq 0 ] && [ ! -f $build_dir/node_modules/.bin/bower ]; then
     # Install bower locally
     npm install --userconfig $build_dir/.npmrc --production bower 2>&1 | indent
   fi
@@ -145,7 +155,7 @@ fi
 
 (
   # Run bower
-  if [ -f $build_dir/bower.json ]; then
+  if [ $run_bower -eq 0 ]; then
     status "Installing frontend packages with bower"
     export GITHUB_AUTH_TOKEN=$(cat $env_dir/GITHUB_AUTH_TOKEN)
     export bower_shorthand_resolver=git+https://$GITHUB_AUTH_TOKEN:x-oauth-basic@github.com/{{owner}}/{{package}}
@@ -205,7 +215,7 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
 
 # Check and run gulp
 (
-  if [ -f $build_dir/gulpfile.js ]; then
+  if [ $run_gulp -eq 0 ]; then
     # get the env vars
     if [ -d "$env_dir" ]; then
       status "Exporting config vars to environment"
@@ -218,6 +228,23 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
     echo "-----> No gulpfile found"
   fi
 )
+
+# Check and run grunt
+(
+  if [ $run_grunt -eq 0 ]; then
+    # get the env vars
+    if [ -d "$env_dir" ]; then
+      status "Exporting config vars to environment"
+      export_env_dir $env_dir
+    fi
+
+    echo "-----> Found Gruntfile, running grunt heroku:$NODE_ENV task"
+    $build_dir/node_modules/.bin/grunt heroku:$NODE_ENV 2>&1 | indent
+  else
+    echo "-----> No Gruntfile found"
+  fi
+)
+
 
 # Post package.json to nomnom service
 # Use a subshell so failures won't break the build.
