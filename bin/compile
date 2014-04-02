@@ -201,7 +201,9 @@ fi
   #
   # once this bug is fixed:
   # https://github.com/chriseppstein/compass/issues/1617
-  HOME=$build_dir make -C $build_dir heroku-compass  2>&1 | indent
+  if [ -f $build_dir/Makefile ] && grep -Fq heroku-compass $build_dir/Makefile; then
+    HOME=$build_dir make -C $build_dir heroku-compass  2>&1 | indent
+  fi
 )
 
 # cache ruby gems compass
