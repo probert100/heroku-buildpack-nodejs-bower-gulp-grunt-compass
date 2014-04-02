@@ -176,6 +176,11 @@ fi
   fi
 )
 
+# this is required to execute bundle and store gems in cachedir
+# we do it globally because we want to be able to run bundle even
+# from within grunt
+export HOME=$build_dir
+
 (
   # porting in compass install
   # install compass
@@ -187,13 +192,13 @@ fi
   if test -d $cache_dir/ruby/.gem; then
     status "Restoring ruby gems directory from cache"
     cp -r $cache_dir/ruby/.gem $build_dir
-    HOME=$build_dir gem update bundler --user-install --no-rdoc --no-ri 2>&1 | indent
+    gem update bundler --user-install --no-rdoc --no-ri 2>&1 | indent
   else
-    HOME=$build_dir gem install bundler --user-install --no-rdoc --no-ri 2>&1 | indent
+    gem install bundler --user-install --no-rdoc --no-ri 2>&1 | indent
   fi
 
   # Run bundler
-  HOME=$build_dir bundle install 2>&1 | indent
+  bundle install 2>&1 | indent
 
   # Run compass
   # FIXME: this should become
@@ -202,7 +207,7 @@ fi
   # once this bug is fixed:
   # https://github.com/chriseppstein/compass/issues/1617
   if [ -f $build_dir/Makefile ] && grep -Fq heroku-compass $build_dir/Makefile; then
-    HOME=$build_dir make -C $build_dir heroku-compass  2>&1 | indent
+    make -C $build_dir heroku-compass  2>&1 | indent
   fi
 )
 
