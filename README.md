@@ -4,11 +4,13 @@ What this buildpack does
  * Run `npm install`
  * Install latest version of `gulp` if a gulpfile is present and was not already installed by previous pass
  * Install latest version of `bower` if a bowerfile is present and was not already installed by previous pass
- * Install bundle
+ * Install latest version of `grunt` if a gruntfile is present and was not already installed by previous pass
+ * Install `bundle`
  * Run `bower install`
  * Run `bundle install`
  * Run `bundle exec compass compile`
  * Run `gulp heroku:$NODE_ENV` (by default, it expands to `heroku:production`)
+ * Run `grunt heroku:$NODE_ENV`
 
 
 How to access private repos
@@ -26,4 +28,5 @@ Notes
 -----
  * Everything is cached after first download: npm, bower, gems
  * Since we're using compass 1.0 alpha in our projects, and it's got a few bugs, the buildpack currently "make heroku-compass" instead of `bundle exec compass compile`, as a hook point to run compass with special flags to workaround its bugs. You may want to fork the buildpack and change this back to what it ought to be.
+ * If you're upgrading from another grunt/gulp/bower/nodejs buildpack/fork, the process might fail because of a different use of the build cache. You're advised to purge the build cache of your project, by running: `heroku plugins:install https://github.com/heroku/heroku-repo.git; heroku repo:purge_cache -a appname`
 
