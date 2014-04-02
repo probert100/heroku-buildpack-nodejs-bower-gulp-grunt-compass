@@ -180,15 +180,15 @@ fi
 # we do it globally because we want to be able to run bundle even
 # from within grunt
 export HOME=$build_dir
+export GEM_HOME=$build_dir/.gem/ruby/1.9.1
+export PATH="$GEM_HOME/bin:$PATH"
 
 (
   # porting in compass install
   # install compass
   status "Installing Compass"
-  export GEM_HOME=$build_dir/.gem/ruby/1.9.1
   export LANG=en_US.UTF-8
   export LC_ALL=en_US.UTF8
-  PATH="$GEM_HOME/bin:$PATH"
   if test -d $cache_dir/ruby/.gem; then
     status "Restoring ruby gems directory from cache"
     cp -r $cache_dir/ruby/.gem $build_dir
