@@ -83,10 +83,21 @@ if [ ! -f "$build_dir/.npmrc" ]; then
 fi
 
 # Check whether we need to run the various tools
-# Notice braindead bash boolean logic: 0 means "run", 1 means "don't run"
-run_bower=$(test -f $build_dir/bower.json)$?
-run_grunt=$(test -f $build_dir/Gruntfile.js || test -f $build_dir/Gruntfile.coffee)$?
-run_gulp=$(test -f $build_dir/gulpfile.js)$?
+if [ -f $build_dir/bower.json ]; then
+  run_bower=1
+else
+  run_bower=0
+fi
+if [ -f $build_dir/Gruntfile.js ] || [ -f $build_dir/Gruntfile.coffee ]; then
+  run_grunt=1
+else
+  run_grunt=0
+fi
+if [ -f $build_dir/gulpfile.js ]; then
+  run_gulp=1
+else
+  run_gulp=0
+fi
 
 # Scope config var availability only to `npm install`
 (
@@ -99,15 +110,15 @@ run_gulp=$(test -f $build_dir/gulpfile.js)$?
   # Make npm output to STDOUT instead of its default STDERR
   npm install --userconfig $build_dir/.npmrc --production 2>&1 | indent
 
-  if [ $run_gulp -eq 0 ] && [ ! -f $build_dir/node_modules/.bin/gulp ]; then
+  if [ $run_gulp -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/gulp ]; then
     # Install gulp locally
     npm install --userconfig $build_dir/.npmrc --production gulp 2>&1 | indent
   fi
-  if [ $run_grunt -eq 0 ] && [ ! -f $build_dir/node_modules/.bin/grunt ]; then
+  if [ $run_grunt -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/grunt ]; then
     # Install grunt locally
     npm install --userconfig $build_dir/.npmrc --production grunt 2>&1 | indent
   fi
-  if [ $run_bower -eq 0 ] && [ ! -f $build_dir/node_modules/.bin/bower ]; then
+  if [ $run_bower -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/bower ]; then
     # Install bower locally
     npm install --userconfig $build_dir/.npmrc --production bower 2>&1 | indent
   fi
@@ -155,7 +166,7 @@ fi
 
 (
   # Run bower
-  if [ $run_bower -eq 0 ]; then
+  if [ $run_bower -ne 0 ]; then
     status "Installing frontend packages with bower"
     export GITHUB_AUTH_TOKEN=$(cat $env_dir/GITHUB_AUTH_TOKEN)
     export bower_shorthand_resolver=git+https://$GITHUB_AUTH_TOKEN:x-oauth-basic@github.com/{{owner}}/{{package}}
@@ -215,7 +226,7 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
 
 # Check and run gulp
 (
-  if [ $run_gulp -eq 0 ]; then
+  if [ $run_gulp -ne 0 ]; then
     # get the env vars
     if [ -d "$env_dir" ]; then
       status "Exporting config vars to environment"
@@ -231,7 +242,7 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
 
 # Check and run grunt
 (
-  if [ $run_grunt -eq 0 ]; then
+  if [ $run_grunt -ne 0 ]; then
     # get the env vars
     if [ -d "$env_dir" ]; then
       status "Exporting config vars to environment"
