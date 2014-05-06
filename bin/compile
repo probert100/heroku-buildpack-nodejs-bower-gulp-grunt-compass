@@ -201,14 +201,7 @@ export PATH="$GEM_HOME/bin:$PATH"
   bundle install 2>&1 | indent
 
   # Run compass
-  # FIXME: this should become
-  #        HOME=$build_dir bundle exec compass compile
-  #
-  # once this bug is fixed:
-  # https://github.com/chriseppstein/compass/issues/1617
-  if [ -f $build_dir/Makefile ] && grep -Fq heroku-compass $build_dir/Makefile; then
-    make -C $build_dir heroku-compass  2>&1 | indent
-  fi
+  HOME=$build_dir bundle exec compass compile
 )
 
 # cache ruby gems compass
