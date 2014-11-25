@@ -110,7 +110,7 @@ fi
   status "Installing dependencies"
   # Make npm output to STDOUT instead of its default STDERR
   npm install --userconfig $build_dir/.npmrc --production 2>&1 | indent
-
+  exit 1
   if [ $run_gulp -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/gulp ]; then
     # Install gulp locally
     npm install --userconfig $build_dir/.npmrc --production gulp gulp-jshint gulp-rename gulp-concat gulp-if gulp-uglify yargs 2>&1 | indent
