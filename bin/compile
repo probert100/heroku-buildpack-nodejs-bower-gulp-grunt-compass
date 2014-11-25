@@ -114,6 +114,7 @@ fi
   if [ $run_gulp -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/gulp ]; then
     # Install gulp locally
     npm install --userconfig $build_dir/.npmrc --production gulp 2>&1 | indent
+    npm install --userconfig $build_dir/.npmrc --production gulp-jshint 2>&1 | indent
   fi
   if [ $run_grunt -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/grunt ]; then
     # Install grunt locally
