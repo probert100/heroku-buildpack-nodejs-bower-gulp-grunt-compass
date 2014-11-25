@@ -110,7 +110,6 @@ fi
   status "Installing dependencies"
   # Make npm output to STDOUT instead of its default STDERR
   npm install --userconfig $build_dir/.npmrc --production 2>&1 | indent
-  npm install --production 2>&1 | indent
   if [ $run_gulp -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/gulp ]; then
     # Install gulp locally
     npm install --userconfig $build_dir/.npmrc --production gulp gulp-jshint gulp-rename gulp-concat gulp-if gulp-uglify yargs 2>&1 | indent
@@ -118,6 +117,7 @@ fi
   if [ $run_grunt -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/grunt ]; then
     # Install grunt locally
     npm install --userconfig $build_dir/.npmrc --production grunt grunt-cli 2>&1 | indent
+    npm install --userconfig $build_dir/.npmrc --production node-sass redis-commander maildev 2>&1 | indent
     npm install --userconfig $build_dir/.npmrc --production grunt-composer grunt-npm-install grunt-bower-install-simple grunt-contrib-copy grunt-sass grunt-contrib-watch grunt-forever grunt-shell grunt-git grunt-contrib-clean 2>&1 | indent
   fi
   if [ $run_bower -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/bower ]; then
