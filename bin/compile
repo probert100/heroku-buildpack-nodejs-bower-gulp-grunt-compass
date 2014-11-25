@@ -177,41 +177,6 @@ fi
   fi
 )
 
-# this is required to execute bundle and store gems in cachedir
-# we do it globally because we want to be able to run bundle even
-# from within grunt
-export HOME=$build_dir
-export GEM_HOME=$build_dir/.gem/ruby/1.9.1
-export PATH="$GEM_HOME/bin:$PATH"
-
-(
-  # porting in compass install
-  # install compass
-  status "Installing Compass"
-  export LANG=en_US.UTF-8
-  export LC_ALL=en_US.UTF8
-  if test -d $cache_dir/ruby/.gem; then
-    status "Restoring ruby gems directory from cache"
-    cp -r $cache_dir/ruby/.gem $build_dir
-    gem update bundler --user-install --no-rdoc --no-ri 2>&1 | indent
-  else
-    gem install bundler --user-install --no-rdoc --no-ri 2>&1 | indent
-  fi
-
-  # Run bundler
-  bundle install 2>&1 | indent
-)
-
-# cache ruby gems compass
-rm -rf $cache_dir/ruby
-mkdir -p $cache_dir/ruby
-
-# If app has a gems directory, cache it.
-if test -d $build_dir/.gem; then
-  status "Caching ruby gems directory for future builds"
-  cp -r $build_dir/.gem $cache_dir/ruby
-fi
-
 status "Building runtime environment"
 mkdir -p $build_dir/.profile.d
 echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\$PATH\";" > $build_dir/.profile.d/nodejs.sh
