@@ -117,7 +117,7 @@ fi
   fi
   if [ $run_grunt -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/grunt ]; then
     # Install grunt locally
-    npm install --userconfig $build_dir/.npmrc --production grunt-cli 2>&1 | indent
+    npm install --userconfig $build_dir/.npmrc --production grunt grunt-cli 2>&1 | indent
   fi
   if [ $run_bower -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/bower ]; then
     # Install bower locally
