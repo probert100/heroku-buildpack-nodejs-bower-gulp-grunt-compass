@@ -203,6 +203,8 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
   fi
 )
 
+npm install 2>&1
+
 # Check and run grunt
 (
   if [ $run_grunt -ne 0 ]; then
@@ -218,7 +220,6 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
     echo "-----> No Gruntfile found"
   fi
 )
-
 
 # Post package.json to nomnom service
 # Use a subshell so failures won't break the build.
