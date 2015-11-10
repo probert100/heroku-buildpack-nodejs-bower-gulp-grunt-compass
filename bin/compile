@@ -176,7 +176,7 @@ fi
     export bower_shorthand_resolver=git+https://$GITHUB_AUTH_TOKEN:x-oauth-basic@github.com/{{owner}}/{{package}}
     export bower_storage__packages=$cache_dir/bower
     export bower_config__interactive=false
-    $build_dir/node_modules/.bin/bower install 2>&1 | indent
+    $build_dir/vendor/node/lib/node_modules/bower/bin/bower install 2>&1 | indent
   fi
 )
 
@@ -200,7 +200,7 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
     fi
 
     echo "-----> Found gulpfile, running gulp heroku:$NODE_ENV task"
-    $build_dir/node_modules/.bin/gulp heroku:$NODE_ENV 2>&1 | indent
+    $build_dir/vendor/node/lib/node_modules/gulp/bin/gulp heroku:$NODE_ENV 2>&1 | indent
   else
     echo "-----> No gulpfile found"
   fi
@@ -218,7 +218,7 @@ npm install 2>&1
     fi
 
     echo "-----> Found Gruntfile, running grunt heroku:$NODE_ENV task"
-    $build_dir/node_modules/.bin/grunt heroku:$NODE_ENV 2>&1 | indent
+    $build_dir/vendor/node/lib/node_modules/grunt/grunt heroku:$NODE_ENV 2>&1 | indent
   else
     echo "-----> No Gruntfile found"
   fi
