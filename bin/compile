@@ -200,7 +200,7 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
     fi
 
     echo "-----> Found gulpfile, running gulp heroku:$NODE_ENV task"
-    #$build_dir/vendor/node/lib/node_modules/gulp/bin/gulp.js heroku:$NODE_ENV 2>&1 | indent
+    $build_dir/vendor/node/lib/node_modules/gulp/bin/gulp.js heroku:$NODE_ENV 2>&1 | indent
   else
     echo "-----> No gulpfile found"
   fi
@@ -218,7 +218,7 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
     fi
 
     echo "-----> Found Gruntfile, running grunt heroku:$NODE_ENV task"
-    $build_dir/vendor/node/bin/grunt heroku:$NODE_ENV 2>&1 | indent
+    $build_dir/vendor/node/lib/node_modules/grunt/bin/grunt heroku:$NODE_ENV 2>&1 | indent
   else
     echo "-----> No Gruntfile found"
   fi
