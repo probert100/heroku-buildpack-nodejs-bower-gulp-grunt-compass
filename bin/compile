@@ -200,7 +200,7 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
     fi
 
     echo "-----> Found gulpfile, running gulp heroku:$NODE_ENV task"
-    $build_dir/vendor/node/bin/gulp heroku:$NODE_ENV 2>&1 | indent
+    #$build_dir/vendor/node/bin/gulp heroku:$NODE_ENV 2>&1 | indent
   else
     echo "-----> No gulpfile found"
   fi
