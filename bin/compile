@@ -113,18 +113,18 @@ fi
   if [ $run_gulp -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/gulp ]; then
     status "Gulp"
     # Install gulp locally
-    npm install -g --userconfig $build_dir/.npmrc --production gulp gulp-jshint gulp-rename gulp-concat gulp-if gulp-uglify yargs 2>&1 | indent
+    npm install -g --userconfig $build_dir/.npmrc --silent --production gulp gulp-jshint gulp-rename gulp-concat gulp-if gulp-uglify yargs | indent
   fi
   if [ $run_grunt -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/grunt ]; then
     status "Grunt"
-    npm install -g --userconfig $build_dir/.npmrc --production grunt grunt-cli 2>&1 | indent
-    npm install -g --userconfig $build_dir/.npmrc --production node-sass redis-commander maildev grunt-composer grunt-npm-install grunt-bower-install-simple grunt-contrib-copy grunt-sass grunt-contrib-watch grunt-forever grunt-shell grunt-git grunt-contrib-clean 2>&1 | indent
+    npm install -g --userconfig $build_dir/.npmrc --silent --production grunt grunt-cli 2>&1 | indent
+    npm install -g --userconfig $build_dir/.npmrc --silent --production node-sass redis-commander maildev grunt-composer grunt-npm-install grunt-bower-install-simple grunt-contrib-copy grunt-sass grunt-contrib-watch grunt-forever grunt-shell grunt-git grunt-contrib-clean 2>&1 | indent
     # Install grunt locally
   fi
   if [ $run_bower -ne 0 ] && [ ! -f $build_dir/node_modules/.bin/bower ]; then
     status "Bower"
     # Install bower locally
-    npm install -g --userconfig $build_dir/.npmrc --production bower 2>&1 | indent
+    npm install -g --userconfig $build_dir/.npmrc --silent --production bower 2>&1 | indent
   fi
 )
 
