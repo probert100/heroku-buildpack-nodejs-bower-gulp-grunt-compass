@@ -201,6 +201,8 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
 
     echo "-----> Running npm install gulp"
     npm install gulp
+    echo "-----> Running npm install gulp-load-plugins"
+    npm install gulp-load-plugins
     echo "-----> Found gulpfile, running gulp heroku task"
     $build_dir/vendor/node/lib/node_modules/gulp/bin/gulp.js heroku 2>&1 | indent
   else
