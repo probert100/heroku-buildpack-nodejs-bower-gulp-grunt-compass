@@ -203,6 +203,37 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
     npm install gulp
     echo "-----> Running npm install gulp-load-plugins"
     npm install gulp-load-plugins
+    
+    echo "-----> Running npm install rimraf"
+    npm install rimraf
+    echo "-----> Running npm install run-sequence"
+    npm install run-sequence
+    
+    echo "-----> Running npm install gulp-less"
+    npm install gulp-less
+    
+    echo "-----> Running npm install gulp-clean-css"
+    npm install gulp-clean-css
+    
+    echo "-----> Running npm install gulp-clean-css"
+    npm install gulp-clean-css
+    
+    echo "-----> Running npm install path"
+    npm install path
+    
+    echo "-----> Running npm install gulp-uglify"
+    npm install gulp-uglify
+    
+    echo "-----> Running npm install gulp-jshint"
+    npm install gulp-jshint
+    
+    echo "-----> Running npm gulp-play-assets"
+    npm install gulp-play-assets
+    
+    echo "-----> Running npm gulp-inject"
+    npm install gulp-inject
+    
+    
     echo "-----> Found gulpfile, running gulp heroku task"
     $build_dir/vendor/node/lib/node_modules/gulp/bin/gulp.js heroku 2>&1 | indent
   else
