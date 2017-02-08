@@ -225,6 +225,9 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
     npm install gulp-uglify
     
     echo "-----> Running npm install gulp-jshint"
+    npm install jshint
+    
+    echo "-----> Running npm install gulp-jshint"
     npm install gulp-jshint
     
     echo "-----> Running npm gulp-play-assets"
