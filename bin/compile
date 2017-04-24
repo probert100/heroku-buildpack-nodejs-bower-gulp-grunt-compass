@@ -239,6 +239,9 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
     echo "-----> Running npm gulp-protractor"
     npm install gulp-protractor
     
+     echo "-----> Running npm gulp-concat"
+    npm install gulp-concat
+    
     
     echo "-----> Found gulpfile, running gulp heroku task"
     $build_dir/vendor/node/lib/node_modules/gulp/bin/gulp.js heroku 2>&1 | indent
